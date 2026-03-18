@@ -10,8 +10,9 @@ conda env export > $1.yaml
 
 # pip
 cd pip
-awk '/==/' ../$1.yaml > req.txt
-sed -i 's/.* - //g' req.txt
+#awk '/==/' ../$1.yaml > req.txt
+#sed -i 's/.* - //g' req.txt
+pip list --format freeze > req.txt
 cd pkgs
 pip download -r ../req.txt
 cd ../..
@@ -22,7 +23,7 @@ conda list --explicit > tmp.yaml
 awk '/^http/' tmp.yaml > req.txt
 rm -rf tmp.yaml
 cd pkgs
-wget --user-agent="Mozilla" -i ../req.txt
+wget --user-agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0" -i ../req.txt
 cd ../..
 
 # tar
