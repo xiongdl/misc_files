@@ -28,7 +28,7 @@ wget --quiet --user-agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gec
 echo "Done: conda pkgs"
 cd ..
 cd repo
-conda clean --index-cache
+conda clean --index-cache --yes
 conda update python --dry-run --quiet
 cp $CONDA_PREFIX/../../pkgs/cache/*.json .
 echo "Done: conda repo"
