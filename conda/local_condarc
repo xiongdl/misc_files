@@ -1,0 +1,12 @@
+channels:
+  - conda-forge
+  - defaults
+default_channels:
+  - file:///your/local/conda/path/pkgs/main
+# when setting to local path, do not use --offline
+channel_alias: file:///your/local/conda/path/cloud
+custom_channels:
+  conda-forge: file:///your/local/conda/path/cloud
+
+show_channel_urls: true
+channel_priority: strict
