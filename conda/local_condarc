@@ -9,4 +9,4 @@ custom_channels:
   conda-forge: file:///your/local/conda/path/cloud
 
 show_channel_urls: true
-channel_priority: strict
+#channel_priority: strict
