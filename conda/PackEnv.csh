@@ -3,7 +3,7 @@
 conda activate $1
 
 rm -rf $1-dep
-mkdir -p $1-dep/pip/pkgs $1-dep/conda/pkgs $1-dep/conda/repo
+mkdir -p $1-dep/pip/pkgs $1-dep/conda/pkgs
 
 cd $1-dep
 conda env export > $1.yaml
@@ -16,6 +16,9 @@ cd pkgs
 pip download -r ../req.txt --quiet
 echo "Done: pip pkgs"
 cd ../..
+conda activate base
+dir2pi pip/pkgs
+conda deactivate
 
 # conda
 cd conda
@@ -23,16 +26,22 @@ conda list --explicit > tmp.yaml
 awk '/^http/' tmp.yaml > req.txt
 rm -rf tmp.yaml
 echo "Done: conda list"
-cd pkgs
-wget --quiet --user-agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0" -i ../req.txt
-echo "Done: conda pkgs"
-cd ..
-cd repo
 conda clean --index-cache --yes
 conda update python --dry-run --quiet
-cp $CONDA_PREFIX/../../pkgs/cache/*.json .
-echo "Done: conda repo"
-cd ../..
+foreach file ( $CONDA_PREFIX/../../pkgs/cache/*.info.json )
+  set repo = `grep url $file | awk -F '/' '{print $(NF-1)"/"$NF}' | sed 's/",$//'`
+  grep $repo req.txt > tmp.txt
+  mkdir -p pkgs/$repo
+  wget --quiet --user-agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0" -i tmp.txt -P pkgs/$repo
+  set json = `echo $file | sed 's/info\.json/json/g'`
+  cp $json pkgs/$repo/repodata.json -rf
+  cp $file pkgs/$repo/repodata.info.json -rf
+  echo $file
+  echo $json
+  echo $repo
+  echo "Done: conda $repo"
+end
+cd ..
 
 # tar
 cd ..
