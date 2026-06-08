@@ -36,9 +36,7 @@ foreach file ( $CONDA_PREFIX/../../pkgs/cache/*.info.json )
   set json = `echo $file | sed 's/info\.json/json/g'`
   cp $json pkgs/$repo/repodata.json -rf
   cp $file pkgs/$repo/repodata.info.json -rf
-  echo $file
-  echo $json
-  echo $repo
+  rm tmp.txt -rf
   echo "Done: conda $repo"
 end
 cd ..
