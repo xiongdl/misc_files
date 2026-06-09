@@ -18,7 +18,10 @@ awk '/^[[:space:]]*- pip:/{f=1; next} f==1 && /^[^[:space:]]/{f=0} f==1{sub(/^[[
 
 # Check whether env_name exist or not
 set env_path = `dirname $CONDA_PYTHON_EXE`/../envs
-if ( -d $env_path/$env_name ) then
+if ( $env_name == base ) then
+  echo "Error: $env_name can not set to base!"
+  exit 1
+else if ( -d $env_path/$env_name ) then
   echo "Error: $env_name Exist, Please Remove First!"
   exit 1
 endif
