@@ -20,6 +20,7 @@ awk '/^[[:space:]]*- pip:/{f=1; next} f==1 && /^[^[:space:]]/{f=0} f==1{sub(/^[[
 set env_path = `dirname $CONDA_PYTHON_EXE`/../envs
 if ( -d $env_path/$env_name ) then
   echo "Error: $env_name Exist, Please Remove First!"
+  exit 1
 endif
 
 # conda
