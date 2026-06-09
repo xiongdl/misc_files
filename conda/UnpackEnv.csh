@@ -9,7 +9,8 @@ tar -xzvf $1
 echo $abs_path
 set env_name = `basename $abs_path | sed 's/-dep//g'`
 
-env \
-  CONDA_CHANNEL_ALIAS=file://$abs_path/conda/pkgs \
-  PIP_INDEX_URL=file://$abs_path/pip/pkgs/simple \
-  conda env create -n $2 -f $abs_path/$env_name.yaml
+( \
+  setenv CONDA_CHANNEL_ALIAS file://$abs_path/conda/pkgs; \
+  setenv PIP_INDEX_URL file://$abs_path/pip/pkgs/simple; \
+  conda env create -n $2 -f $abs_path/$env_name.yaml --offline \
+)

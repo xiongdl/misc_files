@@ -15,14 +15,24 @@ echo "Done: pip list"
 cd pkgs
 pip download -r ../req.txt --quiet
 echo "Done: pip pkgs"
-cd ../..
+ls * > ../list.txt
+cd ..
 conda activate base
-dir2pi pip/pkgs
+dumb-pypi --package-list list.txt --packages-url ../../ --output-dir ./index
+cp index/simple pkgs/ -rf
+rm index -rf
 conda deactivate
+cd ..
 
 # conda
 cd conda
+sed '/- pip:/,$d' ../$1.yaml > conda.yaml
+conda env create -n base_conda -f conda.yaml
+conda activate base_conda
 conda list --explicit > tmp.yaml
+conda deactivate
+conda remove -n base_conda -y
+echo "Done: conda venv"
 awk '/^http/' tmp.yaml > req.txt
 rm -rf tmp.yaml
 echo "Done: conda list"
