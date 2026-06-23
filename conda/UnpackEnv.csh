@@ -24,6 +24,7 @@ tar -xzvf $1
 
 ( \
   setenv CONDA_CHANNEL_ALIAS file://$abs_path/conda/pkgs; \
+  setenv CONDA_DEFAULT_CHANNELS "file://$abs_path/conda/pkgs/main,file://$abs_path/conda/pkgs/r"; \
   setenv PIP_INDEX_URL file://$abs_path/pip/pkgs/simple; \
   conda env create -n $2 -f $abs_path/$env_name.yaml \
 )

@@ -25,6 +25,7 @@ tar -xzvf "$1"
 
 (
     export CONDA_CHANNEL_ALIAS="file://$abs_path/conda/pkgs"
+    export CONDA_DEFAULT_CHANNELS="file://$abs_path/conda/pkgs/main,file://$abs_path/conda/pkgs/r"
     export PIP_INDEX_URL="file://$abs_path/pip/pkgs/simple"
     conda env create -n "$2" -f "$abs_path/$env_name.yaml"
 )
